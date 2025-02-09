@@ -1,12 +1,12 @@
 # Product Subtitle for WooCommerce
 
-**Contributors:** SpiderWares  
+**Contributors:** jthemesstudio, SpiderWares  
 **Tags:** product subtitle, product subtitle for woocommerce, subtitle, wc product subtitle, woocommerce product subtitle  
 **Requires at least:** 5.2  
 **Donate link:** https://paypal.me/KishanMangukiya  
 **Tested up to:** 6.7
 **Requires PHP:** 7.4  
-**Stable tag:** 1.3.2
+**Stable tag:** 1.3.5
 **License:** GPL-2.0+  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Text Domain:** product-subtitle-for-woocommerce  
@@ -88,6 +88,11 @@ Yes, it is fully compatible with Yoast SEO, Rank Math SEO, and SEOPress.
 3. **Single Product Page Subtitle:** Example of a product subtitle displayed on a single product page.
 
 ## Changelog
+
+### 1.3.3
+
+- Added a product subtitle field in the new product editor(Block product editor).  
+- Improved Product subtitle Elementor widget.  
 
 ### 1.3.2
 

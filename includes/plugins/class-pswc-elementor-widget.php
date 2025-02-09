@@ -16,7 +16,7 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
         }
 
         public function get_title() {
-            return __( 'Product Subtitle', 'plugin-name' );
+            return __( 'Product Subtitle', 'product-subtitle-for-woocommerce' );
         }
 
         public function get_icon() {
@@ -37,7 +37,7 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             $this->start_controls_section(
                 'content_section',
                 [
-                    'label' => __( 'Content', 'plugin-name' ),
+                    'label' => __( 'Content', 'product-subtitle-for-woocommerce' ),
                     'tab' => \Elementor\Controls_Manager::TAB_CONTENT,
                 ]
             );
@@ -46,23 +46,23 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             $this->add_control(
                 'html_tag',
                 [
-                    'label' => __( 'HTML Tag', 'plugin-name' ),
+                    'label' => __( 'HTML Tag', 'product-subtitle-for-woocommerce' ),
                     'type' => \Elementor\Controls_Manager::SELECT,
                     'options' => apply_filters( 'pswc_supported_html_tags',		
                         array(
-                            'i'      => '<i>',
-                            'p'      => '<p>',
-                            'mark'   => '<mark>',
-                            'span'   => '<span>',
-                            'small'  => '<small>',
-                            'strong' => '<strong>',
-                            'div'    => '<div>',
-                            'h1'     => '<h1>',
-                            'h2'     => '<h2>',
-                            'h3'     => '<h3>',
-                            'h4'     => '<h4>',
-                            'h5'     => '<h5>',
-                            'h6'     => '<h6>',
+                            'i'      => esc_html( '<i>' ),
+                            'p'      => esc_html( '<p>' ),
+                            'mark'   => esc_html( '<mark>' ),
+                            'span'   => esc_html( '<span>' ),
+                            'small'  => esc_html( '<small>' ),
+                            'strong' => esc_html( '<strong>' ),
+                            'div'    => esc_html( '<div>' ),
+                            'h1'     => esc_html( '<h1>' ),
+                            'h2'     => esc_html( '<h2>' ),
+                            'h3'     => esc_html( '<h3>' ),
+                            'h4'     => esc_html( '<h4>' ),
+                            'h5'     => esc_html( '<h5>' ),
+                            'h6'     => esc_html( '<h6>' ),
                         )
                     ),
                     'default' => 'div',
@@ -73,10 +73,20 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             $this->add_control(
                 'fallback_text',
                 [
-                    'label' => __( 'Fallback Subtitle Text', 'plugin-name' ),
+                    'label' => __( 'Fallback Subtitle Text', 'product-subtitle-for-woocommerce' ),
                     'type' => \Elementor\Controls_Manager::TEXT,
-                    'default' => __( 'Default Subtitle', 'plugin-name' ),
-                    'placeholder' => __( 'Enter your fallback subtitle', 'plugin-name' ),
+                    'default' => __( 'Default Subtitle', 'product-subtitle-for-woocommerce' ),
+                    'placeholder' => __( 'Enter your fallback subtitle', 'product-subtitle-for-woocommerce' ),
+                ]
+            );
+
+            // Add a fallback text input in case the product subtitle isn't available.
+            $this->add_control(
+                'product_id',
+                [
+                    'label' => __( 'Product ID', 'product-subtitle-for-woocommerce' ),
+                    'type' => \Elementor\Controls_Manager::TEXT,
+                    'description' => __( 'Enter a product ID to retrieve its subtitle; if it\'s empty, the current product subtitle will be render. This works on archive product pages, including loops or queries, based on global product variables.', 'product-subtitle-for-woocommerce' ),
                 ]
             );
 
@@ -86,7 +96,7 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             $this->start_controls_section(
                 'style_section',
                 [
-                    'label' => __( 'Style', 'plugin-name' ),
+                    'label' => __( 'Style', 'product-subtitle-for-woocommerce' ),
                     'tab' => \Elementor\Controls_Manager::TAB_STYLE,
                 ]
             );
@@ -96,8 +106,8 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
                 \Elementor\Group_Control_Typography::get_type(),
                 [
                     'name' => 'typography',
-                    'label' => __( 'Typography', 'plugin-name' ),
-                    'selector' => '{{WRAPPER}} {{CURRENT_TAG}}',
+                    'label' => __( 'Typography', 'product-subtitle-for-woocommerce' ),
+                    'selector' => '{{WRAPPER}} .product-subtitle', // Targeting the .product-subtitle class instead of CURRENT_TAG
                 ]
             );
 
@@ -105,10 +115,10 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             $this->add_control(
                 'text_color',
                 [
-                    'label' => __( 'Text Color', 'plugin-name' ),
+                    'label' => __( 'Text Color', 'product-subtitle-for-woocommerce' ),
                     'type' => \Elementor\Controls_Manager::COLOR,
                     'selectors' => [
-                        '{{WRAPPER}} {{CURRENT_TAG}}' => 'color: {{VALUE}}',
+                        '{{WRAPPER}} .product-subtitle' => 'color: {{VALUE}}', // Apply text color to the .product-subtitle class
                     ],
                 ]
             );
@@ -117,10 +127,10 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             $this->add_control(
                 'background_color',
                 [
-                    'label' => __( 'Background Color', 'plugin-name' ),
+                    'label' => __( 'Background Color', 'product-subtitle-for-woocommerce' ),
                     'type' => \Elementor\Controls_Manager::COLOR,
                     'selectors' => [
-                        '{{WRAPPER}} {{CURRENT_TAG}}' => 'background-color: {{VALUE}}',
+                        '{{WRAPPER}} .product-subtitle' => 'background-color: {{VALUE}}', // Apply background color to the .product-subtitle class
                     ],
                 ]
             );
@@ -130,48 +140,38 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
 
         protected function render() {
             $settings = $this->get_settings_for_display();
-
-            // Get the selected HTML tag
-            $tag = isset($settings['html_tag']) ? $settings['html_tag'] : 'div';
-
-            // Fetch the current product's subtitle
-            $product_subtitle = $this->pswc_get_product_subtitle();
-
-            // Use fallback text if product subtitle is not available
-            $text = ! empty( $product_subtitle ) ? $product_subtitle : $settings['fallback_text'];
-            // Get color settings with default fallback to avoid issues
-            $text_color = isset($settings['text_color']) ? $settings['text_color'] : 'inherit';
-
-            $background_color = isset($settings['background_color']) ? $settings['background_color'] : 'transparent';
-
-            // Render the HTML
-            echo sprintf(
-                '<%1$s lass="product-subtitle product-subtitle-%4$d" style="color: %2$s; background-color: %3$s;">%4$s</%1$s>',
-                esc_html( $tag ),
-                esc_attr( $text_color ),
-                esc_attr( $background_color ),
-                esc_html( $text )
+        
+            // Get settings and defaults
+            $tag        = ! empty( $settings['html_tag'] ) ? $settings['html_tag'] : 'div';
+            $product_id = ! empty( $settings['product_id'] ) && $settings['product_id'] ? $settings['product_id'] : $this->get_product_id();
+            $text       = $this->get_product_subtitle($product_id) ?: $settings['fallback_text'];
+        
+            // Render HTML
+            printf(
+                '<%1$s class="product-subtitle product-subtitle-%3$d">%2$s</%1$s>',
+                esc_html($tag),
+                esc_html($text),
+                esc_html($product_id)
             );
+        }
+        
+        /**
+         * Retrieve current product ID
+         */
+        private function get_product_id() {
+            global $product;
+            return (is_product() && $product instanceof WC_Product)
+                ? $product->get_id()
+                : null;
         }
 
         /**
-         * Retrieve the product subtitle from the current product's metadata
-         *
-         * @return string|null
+         * Retrieve product subtitle from metadata
          */
-        private function pswc_get_product_subtitle() {
-
-            // Ensure WooCommerce is active and get the global product object
-            if ( class_exists( 'WooCommerce' ) && is_product() ) {
-                global $product;
-                if ( $product instanceof WC_Product ) {
-                    // Assuming the subtitle is stored in the custom field 'product_subtitle'
-                    return get_post_meta( $product->get_id(), 'pswc_subtitle', true );
-                }
-            }
-            return null;
+        private function get_product_subtitle($product_id = 0) {
+            return $product_id ? get_post_meta($product_id, 'pswc_subtitle', true) : null;
         }
-
+        
         protected function _content_template() {
             ?>
             <#
@@ -181,7 +181,7 @@ if ( ! class_exists( 'PSWC_Product_Subtitle_Widget' ) ) {
             var textColor = settings.text_color;
             var backgroundColor = settings.background_color;
             #>
-            <{{{ tag }}} style="color: {{{ textColor }}}; background-color: {{{ backgroundColor }}};">
+            <{{{ tag }}}>
                 {{{ text }}}
             </{{{ tag }}}>
             <?php

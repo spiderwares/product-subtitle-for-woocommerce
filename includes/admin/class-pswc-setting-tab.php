@@ -39,20 +39,6 @@ class PSWC_Setting_Tab {
 	private $section_id;
 
 	/**
-	 * Flag to determine if subtitles are enabled.
-	 *
-	 * @var string
-	 */
-	private $enable_subtitle;
-
-	/**
-	 * Flag to determine if the subtitle column is enabled.
-	 *
-	 * @var string
-	 */
-	private $pswc_enable_subtitle_col;
-
-	/**
 	 * Flag to determine if the WYSIWYG editor is enabled.
 	 *
 	 * @var string
@@ -63,11 +49,9 @@ class PSWC_Setting_Tab {
 	 * Constructor
 	 */
 	public function __construct() {
-		$this->id                 = 'pswc'; // Set the ID of the settings tab.
-		$this->label              = esc_html__( 'Product Subtitle', 'product-subtitle-for-woocommerce' ); // Set the label of the settings tab.
-		$this->section_id         = 'pswc-general'; // Set the section ID of the settings tab.
-		$this->enable_subtitle    = get_option( 'pswc_disable_subtitle', 'no' ); // Get the option for enabling subtitles.
-		$this->pswc_enable_wysiwyg  = get_option( 'pswc_enable_wysiwyg' ); // Get the option for enabling the WYSIWYG editor.
+		$this->id                 	= 'pswc'; // Set the ID of the settings tab.
+		$this->label              	= esc_html__( 'Product Subtitle', 'product-subtitle-for-woocommerce' ); // Set the label of the settings tab.
+		$this->section_id         	= 'pswc-general'; // Set the section ID of the settings tab.
 
 		$this->event_handler(); // Call the event handler method.
 	}
@@ -79,13 +63,7 @@ class PSWC_Setting_Tab {
 		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_tab' ), 25, 1 ); // Add a filter to include the settings tab.
 
 		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'settings_tab' ) ); // Add action to display the settings tab.
-		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save_pswc_woocommerce_settings' ) ); // Add action to save settings.
-		add_filter( 'plugin_action_links_product-subtitle-for-woocommerce/product-subtitle-for-woocommerce.php', array( $this, 'settings_link' ), 20 ); // Add setting tab.
-
-		if ( 'no' === $this->enable_subtitle ) :
-			add_action( 'edit_form_after_title', array( $this, 'subtitle_field' ) ); // Add action to display custom subtitle field.
-			add_action( 'save_post', array( $this, 'save_pswc_subtitle_field' ) ); // Add action to save subtitle field.
-		endif;
+		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save_fields' ) ); // Add action to save settings.
 	}
 
 	/**
@@ -430,133 +408,14 @@ class PSWC_Setting_Tab {
 		return apply_filters( 'pswc_setting_fields_args', $settings );
 	}
 
-	/**
-	 * Subtitle field on edit product page
-	 */
-	public function subtitle_field() {
-		global $post;
-
-		if ( 'product' === $post->post_type ) :
-			$pswc_subtitle = get_post_meta( $post->ID, 'pswc_subtitle', true ); ?>
-			<div class="pswc-pub-section">
-				<h2 for="pswc_subtitle_editor" style="padding: 10px 0;"><?php esc_html_e( 'Product Sub Title', 'product-subtitle-for-woocommerce' ); ?></h2>
-
-				<?php
-				if ( 'yes' === $this->pswc_enable_wysiwyg ) :
-					$settings  = array(
-						'textarea_name' => 'pswc_subtitle', // Set the name of the textarea.
-						'textarea_rows' => 5, // Set the number of rows for the textarea.
-						'teeny'         => true, // Enable the "teeny" mode for the editor.
-					);
-					wp_editor( $pswc_subtitle, 'pswc_subtitle_editor', $settings ); // Display the WYSIWYG editor.
-				else :
-					?>
-					<input type="text" id="pswc_subtitle" name="pswc_subtitle" value="<?php echo esc_attr( $pswc_subtitle ); ?>" style="width:100%" placeholder="Enter Your Product Subtitle" />
-				<?php endif; ?>
-			</div>
-			<?php
-		endif;
-	}
-
-	/**
-	 * Save fields
-	 */
-	public function get_fields() {
-		
-		return apply_filters(
-			'pswc_save_fields',
-			array(
-				'pswc_cart_position',
-				'pswc_cart_tag',
-				'pswc_minicart_position',
-				'pswc_minicart_tag',
-				'pswc_checkout_position',
-				'pswc_checkout_tag',
-				'pswc_single_position',
-				'pswc_single_tag',
-				'pswc_shop_position',
-				'pswc_shop_tag',
-				'pswc_order_email_position',
-				'pswc_order_email_tag',
-				'pswc_my_account_position',
-				'pswc_my_account_tag',
-				'pswc_thank_you_position',
-				'pswc_thank_you_tag'
-			)
-		);
-	}
 
 	/**
 	 * Save settings
 	 */
-	public function save_pswc_woocommerce_settings() {
-		check_admin_referer( 'woocommerce-settings' );
-		$settings_to_save = $this->get_fields();
-
-		foreach ( $settings_to_save as $setting ) :
-			$setting_field = isset( $_POST[ $setting ] ) ? sanitize_text_field( wp_unslash( $_POST[ $setting ] ) ) : '';
-			if ( ! empty( $setting_field ) ) :
-				update_option( $setting, $setting_field );
-			endif;
-		endforeach;
-
-		$enable_subtitle = isset( $_POST['pswc_disable_subtitle'] ) ? ( sanitize_text_field( wp_unslash( $_POST['pswc_disable_subtitle'] ) ) ? 'yes' : 'no' ) : 'no';
-		update_option( 'pswc_disable_subtitle', $enable_subtitle );
-
-		$enable_subtitle_col = isset( $_POST['pswc_enable_subtitle_col'] ) ? ( sanitize_text_field( wp_unslash( $_POST['pswc_enable_subtitle_col'] ) ) ? 'yes' : 'no' ) : 'no';
-		update_option( 'pswc_enable_subtitle_col', $enable_subtitle_col );
-
-		$enable_subtitle_admin = isset( $_POST['pswc_enable_admin_order_view'] ) ? ( sanitize_text_field( wp_unslash( $_POST['pswc_enable_admin_order_view'] ) ) ? 'yes' : 'no' ) : 'no';
-		update_option( 'pswc_enable_admin_order_view', $enable_subtitle_admin );
-
-		$enable_wyswing = isset( $_POST['pswc_enable_wysiwyg'] ) ? ( sanitize_text_field( wp_unslash( $_POST['pswc_enable_wysiwyg'] ) ) ? 'yes' : 'no' ) : 'no';
-		update_option( 'pswc_enable_wysiwyg', $enable_wyswing );
+	public function save_fields() {
+		woocommerce_update_options( $this->get_settings() );
 	}
 
-	/**
-	 * Save subtitle field value
-	 *
-	 * @param int $product_id Product ID.
-	 */
-	public function save_pswc_subtitle_field( $product_id ) {
-		// Check the nonce.
-		$security = isset( $_POST['woocommerce_meta_nonce'] ) ? sanitize_text_field( wp_unslash( $_POST['woocommerce_meta_nonce'] ) ) : '';
-		if ( empty( $security ) || ! wp_verify_nonce( $security, 'woocommerce_save_data' ) ) : // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-			return;
-		endif;
-
-		if ( isset( $_POST['post_type'] ) && 'product' === $_POST['post_type'] ) :
-			if ( isset( $_POST['pswc_subtitle'] ) ) :
-				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$pswc_subtitle = wp_kses_post( $_POST['pswc_subtitle'] );
-				update_post_meta( $product_id, 'pswc_subtitle', $pswc_subtitle );
-			endif;
-		endif;
-	}
-
-	/**
-	 * Plugin setting links
-	 *
-	 * @param int $links plugin options links.
-	 */
-	public function settings_link( $links ) {
-		// Build and escape the URL.
-		$url = esc_url(
-			add_query_arg(
-				array(
-					'page' => 'wc-settings',
-					'tab'  => 'pswc',
-				),
-				admin_url( 'admin.php' )
-			)
-		);
-		// Create the link.
-		$settings_link = sprintf( "<a href='%s'>%s</a>", $url, esc_html__( 'Settings', 'product-subtitle-for-woocommerce' ) );
-		// Adds the link to the end of the array.
-		array_unshift( $links, $settings_link );
-
-		return $links;
-	}
 }
 
 new PSWC_Setting_Tab(); // Instantiate the PSWC_Setting_Tab class.

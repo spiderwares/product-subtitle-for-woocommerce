@@ -21,8 +21,9 @@ if( ! class_exists( 'PSWC_Guternuburg_Block' ) ) :
             wp_register_script(
                 'pswc-product-subtitle-block-editor',
                 PSWC_URL . '/build/block.js',
-                array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components' ),
-                PSWC_VERSION
+                array( 'wp-blocks', 'wp-element', 'wp-editor', 'wp-components', 'wc-product-editor' ),
+                PSWC_VERSION,
+                true
             );
 
             // Register the block type with render callback

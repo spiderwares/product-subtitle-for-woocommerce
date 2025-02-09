@@ -3,6 +3,9 @@
 // Exit if accessed directly.
 if ( ! defined( 'ABSPATH' ) ) exit;
 
+use Automattic\WooCommerce\Admin\Features\ProductBlockEditor\BlockRegistry;
+use Automattic\WooCommerce\Admin\BlockTemplates\BlockInterface;
+
 if ( ! class_exists( 'Product_Subtitle' ) ) :
 
     /**
@@ -36,6 +39,8 @@ if ( ! class_exists( 'Product_Subtitle' ) ) :
             // Load plugin textdomain
             add_action( 'plugins_loaded', array( __CLASS__, 'load_textdomain' ) );
             add_action( 'elementor/widgets/register', [ $this, 'register_elementor_widget' ] );
+            add_action( 'init', [ $this, 'register_product_subtitle_form_field' ] );
+            add_action( 'woocommerce_block_template_area_product-form_after_add_block_product-name', [ $this, 'product_subtitle_field_add_block' ] );
 
             // Register plugin activation hook
             register_activation_hook( PSWC_FILE, array( 'PSWC_install', 'install' ) );
@@ -150,6 +155,27 @@ if ( ! class_exists( 'Product_Subtitle' ) ) :
             $widgets_manager->register( new PSWC_Product_Subtitle_Widget() );
         }
 
+
+        public function register_product_subtitle_form_field() {
+            if ( isset( $_GET['page'] ) && $_GET['page'] === 'wc-admin' ) :
+                // This points to the directory that contains your block.json.
+                BlockRegistry::get_instance()->register_block_type_from_metadata( PSWC_PATH . '/block/product-field' );
+            endif;
+        }
+
+        public function product_subtitle_field_add_block( $product_name_block ) {
+            $parent = $product_name_block->get_parent();
+            $parent->add_block(
+                array(
+                    'id'         => 'pswc-subtitle-editor',
+                    'blockName'  => 'pswc/product-subtitle-form-field-block',
+                    'order'      => 10, 
+                    'attributes' => array(
+                        'label'  => __( 'Product Subtitle', 'product-subtitle-for-woocommerce' ),
+                    ),
+                )
+            );
+        }
     }
 
 endif;

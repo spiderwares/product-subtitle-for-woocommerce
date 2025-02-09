@@ -24,7 +24,7 @@ if ( ! class_exists( 'PSWC_install' ) ) :
         }
 
         /**
-         * Install the WPBookit plugin.
+         * Install plugin.
          *
          * Creates tables, roles, and necessary pages on plugin activation.
          */
@@ -46,8 +46,8 @@ if ( ! class_exists( 'PSWC_install' ) ) :
                 'settings' => sprintf(
                     '<a href="%s" aria-label="%s">%s</a>',
                     admin_url( 'admin.php?page=wc-settings&tab=pswc&section=pswc-general' ),
-                    esc_attr__( 'Product Subtitle Settings', 'wpbookit-pro' ),
-                    esc_html__( 'Settings', 'wpbookit-pro' )
+                    esc_attr__( 'Product Subtitle Settings', 'product-subtitle-for-woocommerce' ),
+                    esc_html__( 'Settings', 'product-subtitle-for-woocommerce' )
                 ),
             );
             return array_merge( $action_links, $links );

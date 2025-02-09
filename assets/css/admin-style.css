@@ -202,3 +202,7 @@ input#pswc_subtitle {
 #pswc-flyout .pswc-flyout-item.pswc-flyout-documentation{
     background-color : #7f54b3;
 }
+
+div#general_product_data .pswc-pub-section {
+    padding: 0px 15px;
+}
