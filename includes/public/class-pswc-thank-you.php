@@ -65,7 +65,8 @@ class PSWC_Thank_You {
 
 			// Get the product ID and the subtitle from post meta.
 			$product_id = $item->get_product_id();
-			$subtitle   = get_post_meta( $product_id, 'pswc_subtitle', true );
+			$product = wc_get_product( $product_id );
+			$subtitle 	= $product->is_type( 'variation' ) ? get_post_meta( $product->get_parent_id(), 'pswc_subtitle', true ) : $product->get_meta( 'pswc_subtitle' );
 
 			// Only proceed if subtitle exists.
 			if ( ! empty( $subtitle ) ) {

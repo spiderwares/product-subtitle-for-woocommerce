@@ -52,7 +52,7 @@ class PSWC_Cart {
 
 		$product = $cart_item['data']; // Get the product data from the cart item.
 		if ( is_a( $product, 'WC_Product' ) && is_cart() ) { // Check if the product is a WooCommerce product and if it's in the cart.
-			$subtitle     = $product->get_meta( 'pswc_subtitle' ); // Get the product subtitle.
+			$subtitle 	  = $product->is_type( 'variation' ) ? get_post_meta( $product->get_parent_id(), 'pswc_subtitle', true ) : $product->get_meta( 'pswc_subtitle' );
 			$subtitle_tag = get_option( 'pswc_cart_tag', 'strong' ); // Get the subtitle tag option.
 	
 			if ( ! empty( $subtitle ) ) { // Check if the subtitle is not empty.

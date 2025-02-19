@@ -3,7 +3,7 @@
  * Plugin Name:       Product Subtitle for WooCommerce
  * Plugin URI:        https://spiderwares.com/producttagline/
  * Description:       Enhance your WooCommerce store with the Product Subtitle for WooCommerce plugin. Add customizable, dynamic subtitles to your products to highlight key features, promotions, and unique selling points
- * Version:           1.3.5
+ * Version:           1.3.6
  * Requires at least: 5.2
  * Requires PHP:      7.4
  * Author:            SpiderWares
@@ -27,7 +27,7 @@ if ( ! defined( 'PSWC_BASENAME' ) ) :
 endif;
 
 if ( ! defined( 'PSWC_VERSION' ) ) :
-	define( 'PSWC_VERSION', '1.3.5' ); // Define the plugin version.
+	define( 'PSWC_VERSION', '1.3.6' ); // Define the plugin version.
 endif;
 
 if ( ! defined( 'PSWC_PATH' ) ) :

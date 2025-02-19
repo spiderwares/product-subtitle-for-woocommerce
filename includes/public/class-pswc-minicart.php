@@ -52,7 +52,7 @@ class PSWC_Minicart {
 
 		$product = $cart_item['data']; // Get the product data from the cart item.
 		if ( is_a( $product, 'WC_Product' ) && ! is_checkout() && ! is_cart() ) { // Check if the product is a WooCommerce product and if it's not in checkout or cart.
-			$subtitle = $product->get_meta( 'pswc_subtitle' ); // Get the product subtitle.
+			$subtitle 	  = $product->is_type( 'variation' ) ? get_post_meta( $product->get_parent_id(), 'pswc_subtitle', true ) : $product->get_meta( 'pswc_subtitle' ); // Get the product subtitle.
 			$subtitle_tag = get_option( 'pswc_minicart_tag', 'strong' ); // Get the mini cart subtitle tag option.
 	
 			if ( ! empty( $subtitle ) ) {
