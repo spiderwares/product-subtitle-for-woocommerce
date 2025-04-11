@@ -7,9 +7,8 @@
  * @package PSWC_Yoast_SEO
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 if( class_exists( 'WPSEO_Utils' ) && ! class_exists( 'PSWC_Yoast_SEO' ) ) :
 	/**

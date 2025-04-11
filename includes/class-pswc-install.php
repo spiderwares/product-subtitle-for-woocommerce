@@ -4,7 +4,8 @@
  * Installation related functions and actions.
  */
 
-defined( 'ABSPATH' ) || exit;
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 if ( ! class_exists( 'PSWC_install' ) ) :
 
@@ -20,7 +21,7 @@ if ( ! class_exists( 'PSWC_install' ) ) :
          * Hook into WordPress actions and filters.
          */
         public static function init() {
-            add_filter( 'plugin_action_links_' . PSWC_FILE, array( __CLASS__, 'plugin_action_links' ) );
+            add_filter( 'plugin_action_links_' . PSWC_BASENAME, array( __CLASS__, 'plugin_action_links' ) );
         }
 
         /**

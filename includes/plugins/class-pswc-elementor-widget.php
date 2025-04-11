@@ -1,8 +1,6 @@
 <?php
-
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // Exit if accessed directly.
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Elementor Widget for Product Subtitle with Custom HTML Tag and Styling

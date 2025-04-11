@@ -7,9 +7,8 @@
  * @package PSWC_Order_Email
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * PSWC_Order_Email

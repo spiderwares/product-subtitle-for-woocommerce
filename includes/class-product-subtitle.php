@@ -36,8 +36,6 @@ if ( ! class_exists( 'Product_Subtitle' ) ) :
          * Initialize hooks and filters.
          */
         private function init_hooks() {
-            // Load plugin textdomain
-            add_action( 'plugins_loaded', array( __CLASS__, 'load_textdomain' ) );
             add_action( 'elementor/widgets/register', [ $this, 'register_elementor_widget' ] );
             add_action( 'init', [ $this, 'register_product_subtitle_form_field' ] );
             add_action( 'woocommerce_block_template_area_product-form_after_add_block_product-name', [ $this, 'product_subtitle_field_add_block' ] );
@@ -91,13 +89,6 @@ if ( ! class_exists( 'Product_Subtitle' ) ) :
                 do_action( 'PSWC_plugin_loaded' );
             endif;
             return self::$instance;
-        }
-
-        /**
-         * Load the plugin text domain for translation.
-         */
-        public static function load_textdomain() {
-            load_plugin_textdomain( 'product-subtitle-for-woocommerce', false, PSWC_PATH . '/languages/' );
         }
 
         /**

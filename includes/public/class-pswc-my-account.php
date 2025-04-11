@@ -7,9 +7,8 @@
  * @package PSWC_My_Account
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly.
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * PSWC_My_Account

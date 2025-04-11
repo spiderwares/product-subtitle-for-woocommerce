@@ -7,9 +7,8 @@
  * @package PSWC_Admin
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Class PSWC_Admin
@@ -48,9 +47,9 @@ class PSWC_Admin {
 	 * PSWC_Admin constructor.
 	 */
 	public function __construct() {
-		$this->enable_subtitle    		= get_option( 'pswc_disable_subtitle', 'no' ); // Get the option for enabling subtitles.
-		$this->pswc_enable_wysiwyg  	= get_option( 'pswc_enable_wysiwyg' ); // Get the option for enabling the WYSIWYG editor.
-		$this->pswc_enable_subtitle_col = get_option( 'pswc_enable_subtitle_col' );
+		$this->enable_subtitle    			= get_option( 'pswc_disable_subtitle', 'no' ); // Get the option for enabling subtitles.
+		$this->pswc_enable_wysiwyg  		= get_option( 'pswc_enable_wysiwyg' ); // Get the option for enabling the WYSIWYG editor.
+		$this->pswc_enable_subtitle_col 	= get_option( 'pswc_enable_subtitle_col' );
 		$this->pswc_enable_admin_order_view = get_option( 'pswc_enable_admin_order_view' );
 
 		$this->event_handler();

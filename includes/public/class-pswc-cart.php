@@ -7,9 +7,8 @@
  * @package PSWC_Cart
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Class PSWC_Cart

@@ -7,9 +7,8 @@
  * @package PSWC_Admin
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  * Class PSWC_Setting_Tab
@@ -45,6 +44,7 @@ class PSWC_Setting_Tab {
 	 */
 	private $pswc_enable_wysiwyg;
 
+
 	/**
 	 * Constructor
 	 */
@@ -61,7 +61,6 @@ class PSWC_Setting_Tab {
 	 */
 	public function event_handler() {
 		add_filter( 'woocommerce_settings_tabs_array', array( $this, 'add_settings_tab' ), 25, 1 ); // Add a filter to include the settings tab.
-
 		add_action( 'woocommerce_settings_' . $this->id, array( $this, 'settings_tab' ) ); // Add action to display the settings tab.
 		add_action( 'woocommerce_settings_save_' . $this->id, array( $this, 'save_fields' ) ); // Add action to save settings.
 	}
@@ -84,7 +83,7 @@ class PSWC_Setting_Tab {
 		woocommerce_admin_fields( $this->get_settings() ); // Display the settings fields.
 		require_once 'views/ask-help.html';
 	}
-
+	
 	/**
 	 * Settings product subtitle subtitle html tags
 	 */
@@ -107,14 +106,32 @@ class PSWC_Setting_Tab {
 			)
 		);
 	}
-
+		
+	/**
+	 * Get single product page hooks based on the active theme.
+	 *
+	 * This function returns the appropriate subtitle hooks array 
+	 * depending on whether the active theme is Astra or another theme.
+	 *
+	 * @return array
+	 */
+	private function get_single_hooks_based_on_theme() {
+		$hookOptions 	= require PSWC_PATH . 'includes/admin/class-pswc-single-hooks.php';
+		$current_theme 	= wp_get_theme();
+		$theme 			= $current_theme->get_template();
+		$single_hooks 	= ( 'astra' === $theme && isset( $hookOptions['pswc_single_astra_hooks'] ) ) ? $hookOptions['pswc_single_astra_hooks'] : $hookOptions['pswc_single_default_hooks'];
+		return $single_hooks;
+	}
+	
 	/**
 	 * Get settings fields
 	 *
 	 * @return array
 	 */
 	public function get_settings() {
-		$options  = $this->settings_spported_html_tags_options();
+		$options  		= $this->settings_spported_html_tags_options();
+		$single_hooks   = $this->get_single_hooks_based_on_theme();
+
 		$settings = array(
 			'pswc_title'                   => array(
 				'name' => esc_html__( 'Product Subtitle Settings', 'product-subtitle-for-woocommerce' ),
@@ -161,19 +178,7 @@ class PSWC_Setting_Tab {
 			'pswc_single_position'         => array(
 				'name'    => esc_html__( 'Subtitle Position', 'product-subtitle-for-woocommerce' ),
 				'type'    => 'select',
-				'options' => array(
-					'disable-0'                                		=> esc_html__( 'Disable Subtitle', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_before_single_product_summary-0' 	=> esc_html__( 'Top of Product Page', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_product_thumbnails-0'        		=> esc_html__( 'Below Product Slider (May Not Work with Some Themes)', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_single_product_summary-0'    		=> esc_html__( 'Before Product Title', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_single_product_summary-6'    		=> esc_html__( 'After Product Title', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_before_add_to_cart_form-10'  		=> esc_html__( 'After Short Description', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_before_add_to_cart_quantity-10' 	=> esc_html__( 'Before Quantity Input Field', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_after_add_to_cart_quantity-10'  	=> esc_html__( 'After Quantity Input Field', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_before_add_to_cart_button-10' 		=> esc_html__( 'Before Add to Cart Button', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_after_add_to_cart_button-10' 		=> esc_html__( 'After Add to Cart Button', 'product-subtitle-for-woocommerce' ),
-					'woocommerce_product_meta_end-10'         		=> esc_html__( 'After Product Meta Information', 'product-subtitle-for-woocommerce' ),
-				),
+				'options' => $single_hooks,
 				'desc'    => esc_html__( 'Select the subtitle position on the single product page.', 'product-subtitle-for-woocommerce' ),
 				'id'      => 'pswc_single_position',
 				'default' => 'disable-0'
@@ -407,7 +412,6 @@ class PSWC_Setting_Tab {
 		);
 		return apply_filters( 'pswc_setting_fields_args', $settings );
 	}
-
 
 	/**
 	 * Save settings

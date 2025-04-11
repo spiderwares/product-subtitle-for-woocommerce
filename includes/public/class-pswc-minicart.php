@@ -7,9 +7,8 @@
  * @package PSWC_Minicart
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+// Exit if accessed directly.
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 /**
  *  PSWC_Minicart
