@@ -148,6 +148,7 @@ if ( ! class_exists( 'Product_Subtitle' ) ) :
 
 
         public function register_product_subtitle_form_field() {
+            // phpcs:ignore WordPress.Security.NonceVerification.Recommended
             if ( isset( $_GET['page'] ) && $_GET['page'] === 'wc-admin' ) :
                 // This points to the directory that contains your block.json.
                 BlockRegistry::get_instance()->register_block_type_from_metadata( PSWC_PATH . '/block/product-field' );

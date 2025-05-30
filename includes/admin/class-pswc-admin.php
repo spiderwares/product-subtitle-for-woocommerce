@@ -193,7 +193,7 @@ class PSWC_Admin {
 		if ( isset( $_POST['post_type'] ) && 'product' === $_POST['post_type'] ) :
 			if ( isset( $_POST['pswc_subtitle'] ) ) :
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-				$pswc_subtitle = wp_kses_post( $_POST['pswc_subtitle'] );
+				$pswc_subtitle = wp_kses_post( wp_unslash( $_POST['pswc_subtitle'] ) );
 				update_post_meta( $product_id, 'pswc_subtitle', $pswc_subtitle );
 			endif;
 		endif;

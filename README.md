@@ -1,11 +1,12 @@
 # Product Subtitle for WooCommerce
 
-**Contributors:** jthemesstudio, SpiderWares  
-**Tags:** product subtitle, product subtitle for woocommerce, subtitle, wc product subtitle, woocommerce product subtitle  
+**Contributors:** SpiderWares, jthemesstudio  
+**Tags:** product subtitle, product subtitle for woocommerce, subtitle, wc product subtitle, woocommerce product subtitle 
+**Version**: 1.4.0 
 **Requires at least:** 5.2  
-**Tested up to:** 6.8  
+**Tested up to:** 6.8.1  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.3.9  
+**Stable tag:** 1.4.0  
 **License:** GPL-2.0+  
 **License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 **Text Domain:** product-subtitle-for-woocommerce  
@@ -72,7 +73,7 @@ Yes, you can choose from multiple positions on different WooCommerce pages.
 ### ❓  Is this plugin compatible with SEO plugins?  
 Yes! The plugin works with **Yoast SEO, Rank Math SEO, SEOPress**, and others.  
 
-###❓  How do I use the shortcode?  
+### ❓  How do I use the shortcode?  
 – **Display subtitle for the current product:**  
   “`[PSWC_Subtitle]“`  
 – **Display subtitle for a specific product:**  
